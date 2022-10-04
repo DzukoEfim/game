@@ -3,10 +3,11 @@ import { assets_cacher } from '../../helpers/assetsCacher';
 import { animationTimings } from './mainCharacterConstants';
 import { s_l, a_l } from '../../constants/keyboard';
 import { image_tile } from '../../constants/types.constants';
+import mainCharacterSprite from '../../assets/chracterTiles/mainCharacter.png'
 
 export default class MainCharacterDrawer extends MapImageTile {
   constructor () {
-    super('main_character', image_tile, 'dist/chracterTiles/mainCharacter.png');
+    super('main_character', image_tile, mainCharacterSprite);
     this.currentFrame = {
       direction: s_l,
       frameNumber: 0,

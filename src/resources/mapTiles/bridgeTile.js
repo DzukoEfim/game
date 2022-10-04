@@ -1,10 +1,11 @@
 import MapImageTile from '../mapImageTile';
 import { assets_cacher } from '../../helpers/assetsCacher';
 import { image_tile } from '../../constants/types.constants';
+import bridgeTile from '../../assets/objectsTiles/bridge2.png'
 
 export default class BridgeTile extends MapImageTile {
   constructor () {
-    super('bridge', image_tile, 'dist/objectsTiles/bridge2.png');
+    super('bridge', image_tile, bridgeTile);
     this.tileSettings = {
       sx: 0,
       sy: 0,
