@@ -1,26 +1,26 @@
 import ImageTile from './imageTile';
 
 export default class MapImageTile extends ImageTile {
-  constructor (objectType, ...props) {
-    super(...props)
-    this.position = {
-      x: 0,
-      y: 0
-    };
+    constructor(objectType, ...props) {
+        super(...props);
+        this.position = {
+            x: 0,
+            y: 0,
+        };
 
-    this.objectType = objectType;
-  }
+        this.objectType = objectType;
+    }
 
-  getObjectType () {
-    return this.objectType;
-  }
+    getObjectType() {
+        return this.objectType;
+    }
 
-  setPosition (x, y) {
-    this.position.x = x;
-    this.position.y = y;
-  }
+    setPosition(x, y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
 
-  getPosition () {
-    return { ...this.position };
-  }
+    getPosition() {
+        return { ...this.position };
+    }
 }
