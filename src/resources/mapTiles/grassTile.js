@@ -1,10 +1,11 @@
 import MapImageTile from '../mapImageTile';
 import { assets_cacher } from '../../helpers/assetsCacher';
 import { image_tile } from '../../constants/types.constants';
+import forestTile from '../../assets/mapTiles/trees-and-bushes.png'
 
 export default class GrassTile extends MapImageTile {
   constructor (passable = true) {
-    super('grass', image_tile, 'dist/mapTiles/trees-and-bushes.png');
+    super('grass', image_tile, forestTile);
     this.tileSettings = {
       sx: 0,
       sy: 0,

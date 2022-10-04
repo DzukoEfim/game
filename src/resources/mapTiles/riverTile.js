@@ -1,10 +1,11 @@
 import MapImageTile from '../mapImageTile';
 import { assets_cacher } from '../../helpers/assetsCacher';
 import { image_tile } from '../../constants/types.constants';
+import waterTile from '../../assets/mapTiles/water.png'
 
 export default class WaterTile extends MapImageTile {
   constructor (passable = false) {
-    super('water', image_tile, 'dist/mapTiles/water.png');
+    super('water', image_tile, waterTile);
 
     this.passable = passable;
     this.tileSettings = {

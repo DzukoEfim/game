@@ -1,1 +1,0 @@
-(()=>{"use strict";const t=document.createElement("canvas");t.width=1024,t.height=768,t.style.border="1px solid black",document.body.appendChild(t),new class{constructor(t){this.ctx=t,console.log(this.ctx)}init(){const t=e=>{time||(time=e),e-time>1e3&&(time=null),requestAnimationFrame(t)};requestAnimationFrame(t)}}(t.getContext("2d"))})();
