@@ -1,13 +1,11 @@
 class ConfigurationProvider {
+    isGridAvailable() {
+        return true;
+    }
 
-  isGridAvailable () {
-    return true;
-  }
-
-  isGridAvaialable () {
-    return true;
-  }
-
+    isGridAvaialable() {
+        return true;
+    }
 }
 
 export const configurationProvider = new ConfigurationProvider();

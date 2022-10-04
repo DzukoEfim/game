@@ -54,7 +54,7 @@ class Renderer {
     }
 
     drawBackgroundLayers() {
-        for (let layerIndex in this.layers.backgroundLayers) {
+        for (const layerIndex in this.layers.backgroundLayers) {
             const tiles = this.layers.backgroundLayers[layerIndex];
             if (!this.layers.backgroundLayers[layerIndex].length) continue;
 
@@ -69,7 +69,7 @@ class Renderer {
     }
 
     drawMapLayers() {
-        for (let layerIndex in this.layers.mapLayers) {
+        for (const layerIndex in this.layers.mapLayers) {
             const tiles = this.layers.mapLayers[layerIndex];
             if (!this.layers.mapLayers[layerIndex].length) continue;
 
@@ -84,7 +84,7 @@ class Renderer {
     }
 
     drawObjectsLayers() {
-        for (let layerIndex in this.layers.objectsLayers) {
+        for (const layerIndex in this.layers.objectsLayers) {
             const tiles = this.layers.objectsLayers[layerIndex];
             if (!this.layers.objectsLayers[layerIndex].length) continue;
 
@@ -99,7 +99,7 @@ class Renderer {
     }
 
     drawinterfaceLayers() {
-        for (let layerIndex in this.layers.interfaceLayers) {
+        for (const layerIndex in this.layers.interfaceLayers) {
             const tiles = this.layers.interfaceLayers[layerIndex];
             if (!this.layers.interfaceLayers[layerIndex].length) continue;
 
@@ -116,7 +116,6 @@ class Renderer {
     renderByType(type, renderConfiguration) {
         if (type === image_tile) {
             this.renderImageSprite(renderConfiguration);
-            return;
         }
     }
 
