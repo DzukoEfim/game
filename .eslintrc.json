@@ -1,0 +1,34 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "camelcase": "off",
+        "indent": ["error", 4],
+        "import/prefer-default-export": "off",
+        // TODO: change to error mode and fix errors =====
+        "no-restricted-syntax": "warn" ,
+        "guard-for-in": "warn",
+        "no-extend-native": "warn",
+        "max-classes-per-file": "warn",
+        "class-methods-use-this": "warn",
+        "no-underscore-dangle": "warn",
+        "no-plusplus": "warn",
+        "max-len": "warn",
+        "no-unused-vars": "warn",
+        "no-continue": "warn"
+        // ===========================
+    }
+}

@@ -1,7 +1,5 @@
 class NPC_Controller {
-  constructor() {
-    this.npc_list = []
-  }
-
-  
+    constructor() {
+        this.npc_list = [];
+    }
 }
