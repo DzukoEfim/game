@@ -1,7 +1,8 @@
 import { assets_cacher } from '../helpers/assetsCacher';
 import { configurationProvider } from '../helpers/configurationProvider';
 import { renderer } from '../mechanics/renderer';
-import { ITilesMap, IObjectsMap } from '../types';
+import { ITilesMap } from '../resources/mapTiles';
+import { IObjectsMap } from '../resources/objectsTiles';
 
 const tileSize = 32;
 

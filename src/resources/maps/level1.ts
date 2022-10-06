@@ -1,8 +1,10 @@
 import GrassTile from '../mapTiles/grassTile';
 import WaterTile from '../mapTiles/riverTile';
 import BridgeTile from '../mapTiles/bridgeTile';
+import { ITilesMap } from '../mapTiles';
+import { IObjectsMap } from '../objectsTiles';
 
-export const level_1_objects = {
+export const level_1_objects: IObjectsMap = {
     7: {
         3: {
             objects: [new BridgeTile()],
@@ -10,7 +12,7 @@ export const level_1_objects = {
     },
 };
 
-export const level_1_tiles = {
+export const level_1_tiles: ITilesMap = {
     0: {
         0: {
             tile: new GrassTile(),
