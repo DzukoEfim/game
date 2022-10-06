@@ -1,18 +1,25 @@
 import MapImageTile from '../mapImageTile';
 import { assets_cacher } from '../../helpers/assetsCacher';
 import { animationTimings } from './mainCharacterConstants';
-import { s_l, a_l } from '../../constants/keyboard';
+import { s_l } from '../../constants/keyboard';
 import { image_tile } from '../../constants/types.constants';
 import mainCharacterSprite from '../../assets/chracterTiles/mainCharacter.png';
 
+type FrameState = {
+    direction: number;
+    frameNumber: number;
+    frameTime: number;
+}
+
 export default class MainCharacterDrawer extends MapImageTile {
+    private currentFrame: FrameState = {
+        direction: s_l,
+        frameNumber: 0,
+        frameTime: 0,
+    };
+
     constructor() {
         super('main_character', image_tile, mainCharacterSprite);
-        this.currentFrame = {
-            direction: s_l,
-            frameNumber: 0,
-            frameTime: 0,
-        };
     }
 
     getRenderConfiguration() {

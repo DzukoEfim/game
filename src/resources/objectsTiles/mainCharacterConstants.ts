@@ -10,7 +10,15 @@ export const bottom = 'bottom';
 export const spriteWidth = 33;
 export const spriteHeight = 41;
 
-export const buttonToDirectionMapping = {
+export type IDirectionConfig = {
+    value: string;
+    multiplier: number;
+    direction: string;
+}
+
+export type IButtonToDirectionMapping = Record<number, IDirectionConfig>;
+
+export const buttonToDirectionMapping: IButtonToDirectionMapping = {
     [a_l]: {
         value: 'x',
         multiplier: -1,

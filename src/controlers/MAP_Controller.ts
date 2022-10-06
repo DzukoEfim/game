@@ -44,19 +44,19 @@ class MAP_Controller {
 
     public prepareAssets(): void {
         const uniqueTiles = {};
-        for (const row in this.tiles) {
-            for (const col in this.tiles[row]) {
+        Object.keys(this.tiles).forEach((row) => {
+            Object.keys(this.tiles[row]).forEach((col) => {
                 uniqueTiles[this.tiles[row][col].tile.getObjectType()] = this.tiles[row][col].tile;
-            }
-        }
+            });
+        });
 
-        for (const row in this.objects) {
-            for (const col in this.objects[row]) {
+        Object.keys(this.objects).forEach((row) => {
+            Object.keys(this.objects[row]).forEach((col) => {
                 this.objects[row][col].objects.forEach((item) => {
                     uniqueTiles[item.getObjectType()] = item;
                 });
-            }
-        }
+            });
+        });
 
         assets_cacher.downloadAndCacheAssets(uniqueTiles);
     }
@@ -77,23 +77,25 @@ class MAP_Controller {
     }
 
     public drawTiles(): void {
-        for (const row in this.tiles) {
-            for (const col in this.tiles[row]) {
-                this.tiles[row][col].tile.setPosition(+col * tileSize, +row * tileSize); // TODO why col and row counted as string without direct conversion to number?
+        Object.keys(this.tiles).forEach((row) => {
+            Object.keys(this.tiles[row]).forEach((col) => {
+                // TODO why col and row counted as string without direct conversion to number?
+                this.tiles[row][col].tile.setPosition(+col * tileSize, +row * tileSize);
                 renderer.pushToMapLayers(this.tiles[row][col].tile, 0);
-            }
-        }
+            });
+        });
     }
 
     drawObjects() {
-        for (const row in this.objects) {
-            for (const col in this.objects[row]) {
+        Object.keys(this.objects).forEach((row) => {
+            Object.keys(this.objects[row]).forEach((col) => {
                 this.objects[row][col].objects.forEach((item) => {
-                    item.setPosition(+col * tileSize, +row * tileSize); // TODO why col and row counted as string without direct conversion to number?
+                    // TODO why col and row counted as string without direct conversion to number?
+                    item.setPosition(+col * tileSize, +row * tileSize);
                     renderer.pushToObjectsLayers(item, 0);
                 });
-            }
-        }
+            });
+        });
     }
 
     drawGrid() {
@@ -134,13 +136,12 @@ class MAP_Controller {
 
     drawTilesInfo() {
         this.ctx.font = '10px serif white';
-        for (const row in this.tiles) {
-            for (const col in this.tiles[row]) {
-                this.ctx.strokeText(`${row}/${col}`, 5 + +col * tileSize, 10 + +row * tileSize); // TODO why col and row counted as string without direct conversion to number?
-            }
-        }
-
-    // this.ctx.strokeStyle = '#fffff';
+        Object.keys(this.tiles).forEach((row) => {
+            Object.keys(this.tiles[row]).forEach((col) => {
+                // TODO why col and row counted as string without direct conversion to number?
+                this.ctx.strokeText(`${row}/${col}`, 5 + +col * tileSize, 10 + +row * tileSize);
+            });
+        });
     }
 }
 

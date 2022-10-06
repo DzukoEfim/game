@@ -1,5 +1,8 @@
 export default class ImageTile {
-    constructor(type, assetUrl) {
+    private type: string = null;
+    private assetUrl: string = null;
+
+    constructor(type: string, assetUrl: string) {
         this.type = type;
         this.assetUrl = assetUrl;
     }

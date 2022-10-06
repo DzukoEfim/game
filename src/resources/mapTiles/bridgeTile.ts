@@ -35,9 +35,4 @@ export default class BridgeTile extends MapImageTile {
             this.tileSettings.sHeight,
         ];
     }
-
-    // eslint-disable-next-line no-unused-vars, class-methods-use-this
-    positionModifier(char_x0, char_x1, char_y0, char_y1) {
-        console.log();
-    }
 }
