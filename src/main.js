@@ -15,7 +15,6 @@ class Game {
         renderer.initialize(this.ctx);
         keyBoardDrawer.initContext(this.ctx);
         mainCharacter.initContext(this.ctx);
-        mainCharacter.prepareTiles();
         map_controller.initContext(this.ctx);
         map_controller.setTiles(level_1_tiles);
         map_controller.setObjects(level_1_objects);
@@ -33,7 +32,6 @@ class Game {
             const timeStepDiff = timestamp - prevTimeStemp;
             map_controller.update(timeStepDiff);
             mainCharacter.update(timeStepDiff);
-
             renderer.draw();
 
             if (timePassed > 1000) {
@@ -43,7 +41,7 @@ class Game {
             keyBoardDrawer.update(timePassed);
 
             prevTimeStemp = timestamp;
-            requestAnimationFrame(draw);
+            // requestAnimationFrame(draw);
         };
 
         requestAnimationFrame(draw);

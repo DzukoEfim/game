@@ -1,10 +1,12 @@
 import { image_tile } from '../constants/types.constants';
+import { downloadImage } from '../helpers/downloadAsset';
+import { ISprite, RenderConfiguration } from '../sprite';
 
 type ILayers = {
-    backgroundLayers: { [key: number]: any[] },
-    mapLayers: { [key: number]: any[] },
-    objectsLayers: { [key: number]: any[] },
-    interfaceLayers: { [key: number]: any[] },
+    backgroundLayers: Record<string, ISprite[]>,
+    mapLayers: Record<string, ISprite[]>,
+    objectsLayers: Record<string, ISprite[]>,
+    interfaceLayers: Record<string, ISprite[]>,
 }
 
 class Renderer {
@@ -28,7 +30,7 @@ class Renderer {
         }
     }
 
-    public pushToMapLayers(obj: any, layer: number): void {
+    public pushToMapLayers(obj: ISprite, layer: number): void {
         if (!this.layers.mapLayers[layer]) {
             this.layers.mapLayers[layer] = [obj];
         } else {
@@ -45,12 +47,12 @@ class Renderer {
     }
 
     public draw(): void {
-        this.drawBackgroundLayers();
+        // this.drawBackgroundLayers();
         this.drawMapLayers();
-        this.drawObjectsLayers();
-        this.drawinterfaceLayers();
+        // this.drawObjectsLayers();
+        // this.drawinterfaceLayers();
 
-        this.resetLayersObject();
+        // this.resetLayersObject();
     }
 
     private drawBackgroundLayers(): void {
@@ -59,7 +61,7 @@ class Renderer {
             if (!this.layers.backgroundLayers[layerIndex].length) return;
 
             tiles.forEach((tile) => {
-                const type = tile.getType();
+                const type = tile.imageType;
                 if (!type) throw new Error('Renderer: missing or unknown type');
 
                 const renderConfiguration = tile.getRenderConfiguration();
@@ -74,7 +76,7 @@ class Renderer {
             if (!this.layers.mapLayers[layerIndex].length) return;
 
             tiles.forEach((tile) => {
-                const type = tile.getType();
+                const type = tile.imageType;
                 if (!type) throw new Error('Renderer: missing or unknown type');
 
                 const renderConfiguration = tile.getRenderConfiguration();
@@ -89,7 +91,7 @@ class Renderer {
             if (!this.layers.objectsLayers[layerIndex].length) return;
 
             tiles.forEach((tile) => {
-                const type = tile.getType();
+                const type = tile.imageType;
                 if (!type) throw new Error('Renderer: missing or unknown type');
 
                 const renderConfiguration = tile.getRenderConfiguration();
@@ -104,24 +106,37 @@ class Renderer {
             if (!this.layers.interfaceLayers[layerIndex].length) return;
 
             tiles.forEach((tile) => {
-                const type = tile.getType();
+                const type = tile.imageType;
                 if (!type) throw new Error('Renderer: missing or unknown type');
-
                 const renderConfiguration = tile.getRenderConfiguration();
                 this.renderByType(type, renderConfiguration);
             });
         });
     }
 
-    private renderByType(type: string, renderConfiguration: any): void {
+    private renderByType(type: string, renderConfiguration: RenderConfiguration): void {
         if (type === image_tile) {
             this.renderImageSprite(renderConfiguration);
         }
     }
 
-    renderImageSprite(renderConfiguration) {
-        // TODO DIRTY DIRTY HACK TO AVOID eslint issue
-        this.ctx.drawImage.call(this.ctx, ...(renderConfiguration as []));
+    async renderImageSprite(renderConfiguration: RenderConfiguration) {
+        const test = new Image();
+        test.src = renderConfiguration.assetUrl;
+
+        test.onload = () => {
+            this.ctx.drawImage(
+                test,
+                renderConfiguration.sx,
+                renderConfiguration.sy,
+                renderConfiguration.sWidth,
+                renderConfiguration.sHeight,
+                renderConfiguration.x,
+                renderConfiguration.y,
+                renderConfiguration.sWidth,
+                renderConfiguration.sHeight,
+            );
+        };
     }
 
     resetLayersObject() {

@@ -1,4 +1,3 @@
-import { assets_cacher } from '../helpers/assetsCacher';
 import { configurationProvider } from '../helpers/configurationProvider';
 import { renderer } from '../mechanics/renderer';
 import { ITilesMap } from '../resources/mapTiles';
@@ -46,19 +45,17 @@ class MAP_Controller {
         const uniqueTiles = {};
         Object.keys(this.tiles).forEach((row) => {
             Object.keys(this.tiles[row]).forEach((col) => {
-                uniqueTiles[this.tiles[row][col].tile.getObjectType()] = this.tiles[row][col].tile;
+                uniqueTiles[this.tiles[row][col].tile.objectType] = this.tiles[row][col].tile;
             });
         });
 
         Object.keys(this.objects).forEach((row) => {
             Object.keys(this.objects[row]).forEach((col) => {
                 this.objects[row][col].objects.forEach((item) => {
-                    uniqueTiles[item.getObjectType()] = item;
+                    uniqueTiles[item.objectType] = item;
                 });
             });
         });
-
-        assets_cacher.downloadAndCacheAssets(uniqueTiles);
     }
 
     public update(): void {
@@ -79,8 +76,10 @@ class MAP_Controller {
     public drawTiles(): void {
         Object.keys(this.tiles).forEach((row) => {
             Object.keys(this.tiles[row]).forEach((col) => {
-                // TODO why col and row counted as string without direct conversion to number?
-                this.tiles[row][col].tile.setPosition(+col * tileSize, +row * tileSize);
+                this.tiles[row][col].tile.setPosition({
+                    x: parseInt(col, 10) * tileSize,
+                    y: parseInt(row, 10) * tileSize,
+                });
                 renderer.pushToMapLayers(this.tiles[row][col].tile, 0);
             });
         });
@@ -91,7 +90,10 @@ class MAP_Controller {
             Object.keys(this.objects[row]).forEach((col) => {
                 this.objects[row][col].objects.forEach((item) => {
                     // TODO why col and row counted as string without direct conversion to number?
-                    item.setPosition(+col * tileSize, +row * tileSize);
+                    item.setPosition({
+                        x: parseInt(col, 10) * tileSize,
+                        y: parseInt(row, 10) * tileSize,
+                    });
                     renderer.pushToObjectsLayers(item, 0);
                 });
             });

@@ -1,9 +1,8 @@
-import MapImageTile from '../mapImageTile';
-import { assets_cacher } from '../../helpers/assetsCacher';
 import { animationTimings } from './mainCharacterConstants';
 import { s_l } from '../../constants/keyboard';
-import { image_tile } from '../../constants/types.constants';
 import mainCharacterSprite from '../../assets/chracterTiles/mainCharacter.png';
+import { Sprite } from '../../sprite';
+import { ImageTypes } from '../../constants/spriteTypes';
 
 type FrameState = {
     direction: number;
@@ -11,7 +10,7 @@ type FrameState = {
     frameTime: number;
 }
 
-export default class MainCharacterDrawer extends MapImageTile {
+export default class MainCharacterDrawer extends Sprite {
     private currentFrame: FrameState = {
         direction: s_l,
         frameNumber: 0,
@@ -19,23 +18,25 @@ export default class MainCharacterDrawer extends MapImageTile {
     };
 
     constructor() {
-        super('main_character', image_tile, mainCharacterSprite);
+        super({
+            assetUrl: mainCharacterSprite,
+            objectType: ImageTypes.image_tile,
+        });
     }
 
     getRenderConfiguration() {
         const currentFrameParameters = animationTimings[this.currentFrame.direction][this.currentFrame.frameNumber];
 
-        return [
-            assets_cacher.getAsset(this.getObjectType()),
-            currentFrameParameters.sx,
-            currentFrameParameters.sy,
-            currentFrameParameters.sWidth,
-            currentFrameParameters.sHeight,
-            this.position.x,
-            this.position.y,
-            currentFrameParameters.sWidth,
-            currentFrameParameters.sHeight,
-        ];
+        return {
+            assetUrl: this.assetUrl,
+            sx: currentFrameParameters.sx,
+            sy: currentFrameParameters.sy,
+            sWidth: currentFrameParameters.sWidth,
+            sHeight: currentFrameParameters.sHeight,
+            ...this.position,
+            dWidth: currentFrameParameters.sWidth,
+            dHeight: currentFrameParameters.sHeight,
+        };
     }
 
     updateFrameParameters(timePassed, currentButton) {

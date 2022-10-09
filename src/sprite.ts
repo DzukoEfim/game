@@ -1,18 +1,16 @@
 import { ImageTypes } from './constants/spriteTypes';
 import { ICoordinates } from './types';
 
-export interface ISprite {
-  setPosition(position: ICoordinates);
-}
-
 type TileSettings = {
-    sx: number;
-    sy: number;
-    sWidth: number;
-    sHeight: number;
+    sx?: number;
+    sy?: number;
+    sWidth?: number;
+    sHeight?: number;
+    dWidth?: number;
+    dHeight?: number;
 }
 
-type SpriteProperties = {
+export type SpriteProperties = {
     tileSettings?: TileSettings;
     position?: ICoordinates;
     imageType?: ImageTypes;
@@ -21,34 +19,39 @@ type SpriteProperties = {
     assetUrl: string;
 }
 
-const defaultSpriteProperties = {
-    tileSettings: {
-        sHeight: 0,
-        sWidth: 0,
-        sx: 0,
-        sy: 0,
-    },
-    position: {
-        x: 0,
-        y: 0,
-    },
-    passable: true,
-    imageType: ImageTypes.image_tile,
-};
+export type RenderConfiguration = TileSettings & ICoordinates & { assetUrl: string }
+
+export interface ISprite {
+    setPosition(position: ICoordinates);
+    getRenderConfiguration(): RenderConfiguration;
+    position: ICoordinates;
+    readonly objectType: string;
+    assetUrl: string;
+    imageType: ImageTypes.image_tile;
+    passable: boolean;
+}
 
 export class Sprite implements ISprite {
     tileSettings: TileSettings;
-    readonly position: ICoordinates;
+    position: ICoordinates;
     readonly objectType: string;
     assetUrl: string;
     imageType: ImageTypes.image_tile;
     passable: boolean;
 
     constructor(sprite: SpriteProperties) {
-        this.tileSettings = sprite.tileSettings ?? defaultSpriteProperties.tileSettings;
-        this.position = sprite.position ?? defaultSpriteProperties.position;
-        this.passable = sprite.passable ?? defaultSpriteProperties.passable;
-        this.imageType = sprite.imageType ?? defaultSpriteProperties.imageType;
+        this.tileSettings = sprite.tileSettings ?? {
+            sHeight: 0,
+            sWidth: 0,
+            sx: 0,
+            sy: 0,
+        };
+        this.position = sprite.position ?? {
+            x: 0,
+            y: 0,
+        };
+        this.passable = sprite.passable ?? true;
+        this.imageType = sprite.imageType ?? ImageTypes.image_tile;
         this.assetUrl = sprite.assetUrl;
     }
 
@@ -59,13 +62,9 @@ export class Sprite implements ISprite {
 
     getRenderConfiguration() {
         return {
+            assetUrl: this.assetUrl,
             ...this.tileSettings,
             ...this.position,
         };
-    }
-
-    // THIS IS ONLY FOR REFACTORING REASONS
-    getType() {
-        return this.imageType;
     }
 }
