@@ -1,11 +1,15 @@
+import { AssetManager } from '../assetManager';
 import { image_tile } from '../constants/types.constants';
+import { ISprite, RenderConfiguration } from '../sprite';
 
 type ILayers = {
-    backgroundLayers: { [key: number]: any[] },
-    mapLayers: { [key: number]: any[] },
-    objectsLayers: { [key: number]: any[] },
-    interfaceLayers: { [key: number]: any[] },
+    backgroundLayers: Record<string, ISprite[]>,
+    mapLayers: Record<string, ISprite[]>,
+    objectsLayers: Record<string, ISprite[]>,
+    interfaceLayers: Record<string, ISprite[]>,
 }
+
+type LayerNames = keyof ILayers;
 
 class Renderer {
     private ctx: CanvasRenderingContext2D = null;
@@ -28,7 +32,7 @@ class Renderer {
         }
     }
 
-    public pushToMapLayers(obj: any, layer: number): void {
+    public pushToMapLayers(obj: ISprite, layer: number): void {
         if (!this.layers.mapLayers[layer]) {
             this.layers.mapLayers[layer] = [obj];
         } else {
@@ -45,21 +49,21 @@ class Renderer {
     }
 
     public draw(): void {
-        this.drawBackgroundLayers();
-        this.drawMapLayers();
-        this.drawObjectsLayers();
-        this.drawinterfaceLayers();
-
+        this.drawLayer('backgroundLayers');
+        this.drawLayer('mapLayers');
+        this.drawLayer('objectsLayers');
+        this.drawLayer('interfaceLayers');
+        this.drawLayer('interfaceLayers');
         this.resetLayersObject();
     }
 
-    private drawBackgroundLayers(): void {
-        Object.keys(this.layers.backgroundLayers).forEach((layerIndex) => {
-            const tiles = this.layers.backgroundLayers[layerIndex];
-            if (!this.layers.backgroundLayers[layerIndex].length) return;
+    private drawLayer(layerName: LayerNames) {
+        Object.keys(this.layers[layerName]).forEach((layerIndex) => {
+            const tiles = this.layers[layerName][layerIndex];
+            if (!this.layers[layerName][layerIndex].length) return;
 
             tiles.forEach((tile) => {
-                const type = tile.getType();
+                const type = tile.imageType;
                 if (!type) throw new Error('Renderer: missing or unknown type');
 
                 const renderConfiguration = tile.getRenderConfiguration();
@@ -68,60 +72,25 @@ class Renderer {
         });
     }
 
-    private drawMapLayers(): void {
-        Object.keys(this.layers.mapLayers).forEach((layerIndex) => {
-            const tiles = this.layers.mapLayers[layerIndex];
-            if (!this.layers.mapLayers[layerIndex].length) return;
-
-            tiles.forEach((tile) => {
-                const type = tile.getType();
-                if (!type) throw new Error('Renderer: missing or unknown type');
-
-                const renderConfiguration = tile.getRenderConfiguration();
-                this.renderByType(type, renderConfiguration);
-            });
-        });
-    }
-
-    private drawObjectsLayers(): void {
-        Object.keys(this.layers.objectsLayers).forEach((layerIndex) => {
-            const tiles = this.layers.objectsLayers[layerIndex];
-            if (!this.layers.objectsLayers[layerIndex].length) return;
-
-            tiles.forEach((tile) => {
-                const type = tile.getType();
-                if (!type) throw new Error('Renderer: missing or unknown type');
-
-                const renderConfiguration = tile.getRenderConfiguration();
-                this.renderByType(type, renderConfiguration);
-            });
-        });
-    }
-
-    private drawinterfaceLayers(): void {
-        Object.keys(this.layers.interfaceLayers).forEach((layerIndex) => {
-            const tiles = this.layers.interfaceLayers[layerIndex];
-            if (!this.layers.interfaceLayers[layerIndex].length) return;
-
-            tiles.forEach((tile) => {
-                const type = tile.getType();
-                if (!type) throw new Error('Renderer: missing or unknown type');
-
-                const renderConfiguration = tile.getRenderConfiguration();
-                this.renderByType(type, renderConfiguration);
-            });
-        });
-    }
-
-    private renderByType(type: string, renderConfiguration: any): void {
+    private renderByType(type: string, renderConfiguration: RenderConfiguration): void {
         if (type === image_tile) {
             this.renderImageSprite(renderConfiguration);
         }
     }
 
-    renderImageSprite(renderConfiguration) {
-        // TODO DIRTY DIRTY HACK TO AVOID eslint issue
-        this.ctx.drawImage.call(this.ctx, ...(renderConfiguration as []));
+    async renderImageSprite(renderConfiguration: RenderConfiguration) {
+        const image = await AssetManager.loadAsset(renderConfiguration.assetUrl);
+        this.ctx.drawImage(
+            image,
+            renderConfiguration.sx,
+            renderConfiguration.sy,
+            renderConfiguration.sWidth,
+            renderConfiguration.sHeight,
+            renderConfiguration.x,
+            renderConfiguration.y,
+            renderConfiguration.sWidth,
+            renderConfiguration.sHeight,
+        );
     }
 
     resetLayersObject() {

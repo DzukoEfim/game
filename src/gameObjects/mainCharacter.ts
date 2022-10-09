@@ -7,7 +7,6 @@ import {
     buttonToDirectionMapping, lookupToNeibhourTileModifier, spriteWidth, spriteHeight,
 } from '../resources/objectsTiles/mainCharacterConstants';
 import { mainCharacterDrawer } from '../resources/objectsTiles/mainCharacterDrawer';
-import { assets_cacher } from '../helpers/assetsCacher';
 import { renderer } from '../mechanics/renderer';
 import { ICoordinates } from '../types/coordinates';
 
@@ -39,8 +38,7 @@ class MainCharacter extends PressedKeysWatcher {
 
         this.drawParams();
         this.drawCharacter(timePassed);
-        // eslint-disable-next-line no-constant-condition
-        if (true) this.drawCharacterBorder();
+        this.drawCharacterBorder();
     }
 
     private updateLookDirection(pressedButtons: number[]): void {
@@ -60,7 +58,7 @@ class MainCharacter extends PressedKeysWatcher {
     private updateCoordinates(timePassed: number): void {
         const newPositionObject = this.getCoordsOfNextPosition(timePassed);
         const nextTileToGo = this.getNextTiles(newPositionObject.x, newPositionObject.y);
-        if (nextTileToGo[0]?.tile.isTilePassable() && nextTileToGo[1]?.tile.isTilePassable()) {
+        if (nextTileToGo[0]?.tile.passable && nextTileToGo[1]?.tile.passable) {
             this.position = newPositionObject;
         }
     }
@@ -80,8 +78,8 @@ class MainCharacter extends PressedKeysWatcher {
     private drawCharacter(timePassed: number): void {
         const pressedButtons = this.getButtons();
         const currentButton = pressedButtons[pressedButtons.length - 1];
-
-        mainCharacterDrawer.setPosition(this.position.x, this.position.y);
+        console.log(1);
+        mainCharacterDrawer.setPosition({ x: this.position.x, y: this.position.y });
         mainCharacterDrawer.updateFrameParameters(timePassed, currentButton);
         renderer.pushToObjectsLayers(mainCharacterDrawer, 0);
     }
@@ -92,11 +90,6 @@ class MainCharacter extends PressedKeysWatcher {
             map_controller.getTileDataByCoords(x + multipliers.firstTile.x, y + multipliers.firstTile.y),
             map_controller.getTileDataByCoords(x + multipliers.secondTile.x, y + multipliers.secondTile.y),
         ];
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-    prepareTiles() { // TODO <---- candidate to change. Can be static method
-        assets_cacher.downloadAndCacheAssets({ [mainCharacterDrawer.getObjectType()]: mainCharacterDrawer });
     }
 
     private drawCharacterBorder() {
