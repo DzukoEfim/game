@@ -38,8 +38,7 @@ class MainCharacter extends PressedKeysWatcher {
 
         this.drawParams();
         this.drawCharacter(timePassed);
-        // eslint-disable-next-line no-constant-condition
-        if (true) this.drawCharacterBorder();
+        this.drawCharacterBorder();
     }
 
     private updateLookDirection(pressedButtons: number[]): void {
@@ -79,7 +78,7 @@ class MainCharacter extends PressedKeysWatcher {
     private drawCharacter(timePassed: number): void {
         const pressedButtons = this.getButtons();
         const currentButton = pressedButtons[pressedButtons.length - 1];
-
+        console.log(1);
         mainCharacterDrawer.setPosition({ x: this.position.x, y: this.position.y });
         mainCharacterDrawer.updateFrameParameters(timePassed, currentButton);
         renderer.pushToObjectsLayers(mainCharacterDrawer, 0);

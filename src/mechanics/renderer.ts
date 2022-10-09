@@ -1,5 +1,5 @@
+import { AssetManager } from '../assetManager';
 import { image_tile } from '../constants/types.constants';
-import { downloadImage } from '../helpers/downloadAsset';
 import { ISprite, RenderConfiguration } from '../sprite';
 
 type ILayers = {
@@ -47,12 +47,11 @@ class Renderer {
     }
 
     public draw(): void {
-        // this.drawBackgroundLayers();
+        this.drawBackgroundLayers();
         this.drawMapLayers();
-        // this.drawObjectsLayers();
-        // this.drawinterfaceLayers();
-
-        // this.resetLayersObject();
+        this.drawObjectsLayers();
+        this.drawinterfaceLayers();
+        this.resetLayersObject();
     }
 
     private drawBackgroundLayers(): void {
@@ -121,22 +120,18 @@ class Renderer {
     }
 
     async renderImageSprite(renderConfiguration: RenderConfiguration) {
-        const test = new Image();
-        test.src = renderConfiguration.assetUrl;
-
-        test.onload = () => {
-            this.ctx.drawImage(
-                test,
-                renderConfiguration.sx,
-                renderConfiguration.sy,
-                renderConfiguration.sWidth,
-                renderConfiguration.sHeight,
-                renderConfiguration.x,
-                renderConfiguration.y,
-                renderConfiguration.sWidth,
-                renderConfiguration.sHeight,
-            );
-        };
+        const image = await AssetManager.loadAsset(renderConfiguration.assetUrl);
+        this.ctx.drawImage(
+            image,
+            renderConfiguration.sx,
+            renderConfiguration.sy,
+            renderConfiguration.sWidth,
+            renderConfiguration.sHeight,
+            renderConfiguration.x,
+            renderConfiguration.y,
+            renderConfiguration.sWidth,
+            renderConfiguration.sHeight,
+        );
     }
 
     resetLayersObject() {
