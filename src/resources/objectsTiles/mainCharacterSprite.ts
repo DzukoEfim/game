@@ -10,7 +10,7 @@ type FrameState = {
     frameTime: number;
 }
 
-export default class MainCharacterDrawer extends Sprite {
+export class MainCharacterSprite extends Sprite {
     private currentFrame: FrameState = {
         direction: s_l,
         frameNumber: 0,
@@ -73,5 +73,3 @@ export default class MainCharacterDrawer extends Sprite {
         this.currentFrame.frameTime = 0;
     }
 }
-
-export const mainCharacterDrawer = new MainCharacterDrawer();

@@ -6,7 +6,7 @@ import { map_controller } from '../controlers/MAP_Controller';
 import {
     buttonToDirectionMapping, lookupToNeibhourTileModifier,
 } from '../resources/objectsTiles/mainCharacterConstants';
-import { mainCharacterDrawer } from '../resources/objectsTiles/mainCharacterDrawer';
+import { MainCharacterSprite } from '../resources/objectsTiles/mainCharacterSprite';
 import { renderer } from '../mechanics/renderer';
 import { ICoordinates } from '../types/coordinates';
 
@@ -18,9 +18,11 @@ class MainCharacter extends PressedKeysWatcher {
     private speed: number = 0;
     private acceleration_x: number = 0;
     private lookDirection: number = null;
+    private MainCharacterSprite: MainCharacterSprite;
 
     constructor() {
         super([a_l, w_l, d_l, s_l]);
+        this.MainCharacterSprite = new MainCharacterSprite();
     }
 
     public initContext(ctx: CanvasRenderingContext2D): void {
@@ -76,9 +78,9 @@ class MainCharacter extends PressedKeysWatcher {
     private drawCharacter(timePassed: number): void {
         const pressedButtons = this.getButtons();
         const currentButton = pressedButtons[pressedButtons.length - 1];
-        mainCharacterDrawer.setPosition({ x: this.position.x, y: this.position.y });
-        mainCharacterDrawer.updateFrameParameters(timePassed, currentButton);
-        renderer.pushToObjectsLayers(mainCharacterDrawer, 0);
+        this.MainCharacterSprite.setPosition({ x: this.position.x, y: this.position.y });
+        this.MainCharacterSprite.updateFrameParameters(timePassed, currentButton);
+        renderer.pushToObjectsLayers(this.MainCharacterSprite, 0);
     }
 
     private getNextTiles(x: number, y: number) {
