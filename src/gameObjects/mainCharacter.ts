@@ -13,20 +13,14 @@ import { ICoordinates } from '../types/coordinates';
 const maxSpeed = 100; // pixels/second
 
 class MainCharacter extends PressedKeysWatcher {
-    private ctx: CanvasRenderingContext2D = null;
     private position: ICoordinates = { x: 0, y: 0 };
     private speed: number = 0;
-    private acceleration_x: number = 0;
     private lookDirection: number = null;
     private mainCharacterSprite: MainCharacterSprite;
 
     constructor() {
         super([a_l, w_l, d_l, s_l]);
         this.mainCharacterSprite = new MainCharacterSprite();
-    }
-
-    public initContext(ctx: CanvasRenderingContext2D): void {
-        this.ctx = ctx;
     }
 
     public update(timePassed: number) {
@@ -37,18 +31,11 @@ class MainCharacter extends PressedKeysWatcher {
 
         if (pressedButtons.length) this.updateCoordinates(timePassed);
 
-        this.drawParams();
         this.drawCharacter(timePassed);
     }
 
     private updateLookDirection(pressedButtons: number[]): void {
         this.lookDirection = pressedButtons[pressedButtons.length - 1];
-    }
-
-    private drawParams(): void {
-        this.ctx.font = '10px serif';
-        this.ctx.fillText(`speed: ${this.speed}`, 400, 20);
-        this.ctx.fillText(`acceleration: ${this.acceleration_x}`, 400, 40);
     }
 
     private updateSpeed(pressedButtons: number[]) {
