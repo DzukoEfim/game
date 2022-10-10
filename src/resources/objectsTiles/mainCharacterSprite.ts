@@ -2,7 +2,6 @@ import { animationTimings } from './mainCharacterConstants';
 import { s_l } from '../../constants/keyboard';
 import mainCharacterSprite from '../../assets/chracterTiles/mainCharacter.png';
 import { Sprite } from '../../sprite';
-import { ImageTypes } from '../../constants/spriteTypes';
 
 type FrameState = {
     direction: number;
@@ -20,7 +19,6 @@ export class MainCharacterSprite extends Sprite {
     constructor() {
         super({
             assetUrl: mainCharacterSprite,
-            objectType: ImageTypes.image_tile,
         });
     }
 

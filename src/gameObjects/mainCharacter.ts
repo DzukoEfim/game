@@ -18,11 +18,11 @@ class MainCharacter extends PressedKeysWatcher {
     private speed: number = 0;
     private acceleration_x: number = 0;
     private lookDirection: number = null;
-    private MainCharacterSprite: MainCharacterSprite;
+    private mainCharacterSprite: MainCharacterSprite;
 
     constructor() {
         super([a_l, w_l, d_l, s_l]);
-        this.MainCharacterSprite = new MainCharacterSprite();
+        this.mainCharacterSprite = new MainCharacterSprite();
     }
 
     public initContext(ctx: CanvasRenderingContext2D): void {
@@ -78,9 +78,9 @@ class MainCharacter extends PressedKeysWatcher {
     private drawCharacter(timePassed: number): void {
         const pressedButtons = this.getButtons();
         const currentButton = pressedButtons[pressedButtons.length - 1];
-        this.MainCharacterSprite.setPosition({ x: this.position.x, y: this.position.y });
-        this.MainCharacterSprite.updateFrameParameters(timePassed, currentButton);
-        renderer.pushToObjectsLayers(this.MainCharacterSprite, 0);
+        this.mainCharacterSprite.setPosition({ x: this.position.x, y: this.position.y });
+        this.mainCharacterSprite.updateFrameParameters(timePassed, currentButton);
+        renderer.pushToObjectsLayers(this.mainCharacterSprite, 0);
     }
 
     private getNextTiles(x: number, y: number) {

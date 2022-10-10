@@ -13,7 +13,6 @@ const bridgeTileProperties = {
         sHeight: 59,
     },
     passable: false,
-    objectType: 'bridge',
     assetUrl: bridgeTileAsset,
 };
 
@@ -24,13 +23,11 @@ const grassTileProperties = {
         sWidth: 32,
         sHeight: 32,
     },
-    objectType: 'grass',
     assetUrl: grassTileAsset,
 };
 
 const waterTileProperties: SpriteProperties = {
     passable: false,
-    objectType: 'water',
     tileSettings: {
         sx: 0,
         sy: 0,
@@ -42,7 +39,6 @@ const waterTileProperties: SpriteProperties = {
 
 const waterTilePassableProperties: SpriteProperties = {
     passable: false,
-    objectType: 'water',
     tileSettings: {
         sx: 0,
         sy: 0,

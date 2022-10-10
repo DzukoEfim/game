@@ -1,4 +1,3 @@
-import { ImageTypes } from './constants/spriteTypes';
 import { ICoordinates } from './types';
 
 type TileSettings = {
@@ -13,9 +12,7 @@ type TileSettings = {
 export type SpriteProperties = {
     tileSettings?: TileSettings;
     position?: ICoordinates;
-    imageType?: ImageTypes;
     passable?: boolean;
-    objectType: string;
     assetUrl: string;
 }
 
@@ -25,18 +22,14 @@ export interface ISprite {
     setPosition(position: ICoordinates);
     getRenderConfiguration(): RenderConfiguration;
     position: ICoordinates;
-    readonly objectType: string;
     assetUrl: string;
-    imageType: ImageTypes.image_tile;
     passable: boolean;
 }
 
 export class Sprite implements ISprite {
     tileSettings: TileSettings;
     position: ICoordinates;
-    readonly objectType: string;
     assetUrl: string;
-    imageType: ImageTypes.image_tile;
     passable: boolean;
 
     constructor(sprite: SpriteProperties) {
@@ -51,7 +44,6 @@ export class Sprite implements ISprite {
             y: 0,
         };
         this.passable = sprite.passable ?? true;
-        this.imageType = sprite.imageType ?? ImageTypes.image_tile;
         this.assetUrl = sprite.assetUrl;
     }
 
