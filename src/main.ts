@@ -17,10 +17,8 @@ class Game {
         renderer.initialize(this.ctx);
         keyBoardDrawer.initContext(this.ctx);
         mainCharacter.initContext(this.ctx);
-        map_controller.initContext(this.ctx);
         map_controller.setTiles(level_1_tiles);
         map_controller.setObjects(level_1_objects);
-        map_controller.prepareAssets();
     }
 
     init() {

@@ -4,7 +4,7 @@ import {
 } from '../constants/keyboard';
 import { map_controller } from '../controlers/MAP_Controller';
 import {
-    buttonToDirectionMapping, lookupToNeibhourTileModifier, spriteWidth, spriteHeight,
+    buttonToDirectionMapping, lookupToNeibhourTileModifier,
 } from '../resources/objectsTiles/mainCharacterConstants';
 import { mainCharacterDrawer } from '../resources/objectsTiles/mainCharacterDrawer';
 import { renderer } from '../mechanics/renderer';
@@ -17,7 +17,6 @@ class MainCharacter extends PressedKeysWatcher {
     private position: ICoordinates = { x: 0, y: 0 };
     private speed: number = 0;
     private acceleration_x: number = 0;
-    private acceleration_y: number = 0;
     private lookDirection: number = null;
 
     constructor() {
@@ -38,7 +37,6 @@ class MainCharacter extends PressedKeysWatcher {
 
         this.drawParams();
         this.drawCharacter(timePassed);
-        this.drawCharacterBorder();
     }
 
     private updateLookDirection(pressedButtons: number[]): void {
@@ -78,7 +76,6 @@ class MainCharacter extends PressedKeysWatcher {
     private drawCharacter(timePassed: number): void {
         const pressedButtons = this.getButtons();
         const currentButton = pressedButtons[pressedButtons.length - 1];
-        console.log(1);
         mainCharacterDrawer.setPosition({ x: this.position.x, y: this.position.y });
         mainCharacterDrawer.updateFrameParameters(timePassed, currentButton);
         renderer.pushToObjectsLayers(mainCharacterDrawer, 0);
@@ -90,17 +87,6 @@ class MainCharacter extends PressedKeysWatcher {
             map_controller.getTileDataByCoords(x + multipliers.firstTile.x, y + multipliers.firstTile.y),
             map_controller.getTileDataByCoords(x + multipliers.secondTile.x, y + multipliers.secondTile.y),
         ];
-    }
-
-    private drawCharacterBorder() {
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.position.x, this.position.y);
-        this.ctx.lineTo(this.position.x, this.position.y + spriteHeight);
-        this.ctx.lineTo(this.position.x + spriteWidth, this.position.y + spriteHeight);
-        this.ctx.lineTo(this.position.x + spriteWidth, this.position.y);
-        this.ctx.lineTo(this.position.x, this.position.y);
-        this.ctx.strokeStyle = '#FFFB33';
-        this.ctx.stroke();
     }
 }
 
