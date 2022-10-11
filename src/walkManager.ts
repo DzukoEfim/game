@@ -16,13 +16,13 @@ export class WalkManager {
         this.sprite = sprite;
     }
 
-    public update(sprite: ISprite, timePassed: number) {
+    public update(timePassed: number) {
         const pressedButtons = this.keyboardManager.getActions();
         this.updateSpeed(pressedButtons);
 
         if (pressedButtons.length) {
             this.updateLookDirection(pressedButtons);
-            this.updateCoordinates(timePassed, sprite);
+            this.updateCoordinates(timePassed);
         }
     }
 
@@ -34,10 +34,10 @@ export class WalkManager {
         this.speed = pressedButtons.length ? MAX_SPEED : 0;
     }
 
-    updateCoordinates(timePassed: number, sprite: ISprite): void {
+    updateCoordinates(timePassed: number): void {
         const newPositionObject = this.getCoordsOfNextPosition(timePassed);
 
-        sprite.setPosition(newPositionObject);
+        this.sprite.setPosition(newPositionObject);
     }
 
     private getCoordsOfNextPosition(timePassed): ICoordinates {

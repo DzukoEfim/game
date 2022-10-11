@@ -21,7 +21,7 @@ export class MainCharacter {
     }
 
     public update(timePassed: number) {
-        this.walkManager.update(this.mainCharacterSprite, timePassed);
+        this.walkManager.update(timePassed);
         const pressedButtons = this.keyboardManager.getActions();
         const currentButton = pressedButtons[pressedButtons.length - 1];
         this.mainCharacterSprite.animateFrame(timePassed, currentButton);
