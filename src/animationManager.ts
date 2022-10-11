@@ -13,14 +13,16 @@ export type AnimationConfig = Record<ViewDirections, Record<number, FrameSprite>
 export class AnimationManager {
     readonly config: AnimationConfig;
 
+    private sprite: ISprite;
     private currentFrame: {
       direction: ViewDirections
       frameNumber: number
       frameTime: number
     };
 
-    constructor(config: AnimationConfig) {
+    constructor(config: AnimationConfig, sprite: ISprite) {
         this.config = config;
+        this.sprite = sprite;
         this.currentFrame = {
             direction: ViewDirections.DOWN,
             frameNumber: 0,
@@ -39,8 +41,8 @@ export class AnimationManager {
                 + timePassed >= this.config[this.currentFrame.direction][this.currentFrame.frameNumber].frameDuration;
     }
 
-    updateFrame(sprite: ISprite, timePassed: number, newDirection?: ViewDirections) {
-        this.updateSpriteSettings(sprite);
+    updateFrame(timePassed: number, newDirection?: ViewDirections) {
+        this.updateSpriteSettings();
 
         if (!newDirection) {
             this.currentFrame.frameNumber = 0;
@@ -72,11 +74,11 @@ export class AnimationManager {
         this.currentFrame.frameTime += timePassed;
     }
 
-    private updateSpriteSettings(sprite: ISprite) {
+    private updateSpriteSettings() {
         const currentFrameParameters = this.config[this.currentFrame.direction][this.currentFrame.frameNumber];
 
-        sprite.spriteSettings = {
-            ...sprite.spriteSettings,
+        this.sprite.spriteSettings = {
+            ...this.sprite.spriteSettings,
             sx: currentFrameParameters.sx,
             sy: currentFrameParameters.sy,
             sHeight: currentFrameParameters.sHeight,

@@ -7,10 +7,10 @@ export class AnimatedSprite extends Sprite {
     constructor(spriteProperties: SpriteProperties, animationConfig: AnimationConfig) {
         super(spriteProperties);
 
-        this.animationManager = new AnimationManager(animationConfig);
+        this.animationManager = new AnimationManager(animationConfig, this);
     }
 
-    animateFrame(timePassed: number, currentButton: ViewDirections) {
-        this.animationManager.updateFrame(this, timePassed, currentButton);
+    animateFrame(timePassed: number, direction: ViewDirections) {
+        this.animationManager.updateFrame(timePassed, direction);
     }
 }

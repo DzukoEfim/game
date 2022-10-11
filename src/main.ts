@@ -2,6 +2,7 @@ import { map_controller } from './controlers/MAP_Controller';
 import { MainCharacter } from './entities/mainCharacter';
 import { renderer } from './mechanics/renderer';
 import { level_1_tiles, level_1_objects } from './maps/level1';
+import { KeyboardManager } from './keyboardManager';
 
 class Game {
     ctx: CanvasRenderingContext2D;
@@ -18,7 +19,7 @@ class Game {
 
         // debug feature
         // keyBoardDrawer.initContext(this.ctx);
-        this.mainCharacter = new MainCharacter();
+        this.mainCharacter = new MainCharacter(new KeyboardManager());
         map_controller.setTiles(level_1_tiles);
         map_controller.setObjects(level_1_objects);
     }

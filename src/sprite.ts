@@ -19,7 +19,7 @@ export type SpriteProperties = {
 export type RenderConfiguration = SpriteSettings & ICoordinates & { assetUrl: string }
 
 export interface ISprite {
-    setPosition(position: ICoordinates);
+    setPosition(position: ICoordinates): void;
     getRenderConfiguration(): RenderConfiguration;
     position: ICoordinates;
     assetUrl: string;
