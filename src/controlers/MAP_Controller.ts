@@ -1,6 +1,5 @@
 import { renderer } from '../mechanics/renderer';
-import { ITilesMap } from '../resources/mapTiles';
-import { IObjectsMap } from '../resources/objectsTiles';
+import { ITilesMap, IObjectsMap } from '../types';
 
 const tileSize = 32;
 

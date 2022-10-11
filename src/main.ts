@@ -1,7 +1,7 @@
 import { map_controller } from './controlers/MAP_Controller';
-import { mainCharacter } from './gameObjects/mainCharacter';
+import { mainCharacter } from './entities/mainCharacter';
 import { renderer } from './mechanics/renderer';
-import { level_1_tiles, level_1_objects } from './resources/maps/level1';
+import { level_1_tiles, level_1_objects } from './maps/level1';
 
 class Game {
     ctx: CanvasRenderingContext2D;

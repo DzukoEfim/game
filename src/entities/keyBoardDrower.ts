@@ -2,7 +2,7 @@ import { ICoordinates } from '../types/coordinates';
 import { PressedKeysWatcher } from '../mechanics';
 import {
     a_l, w_l, d_l, s_l, awd,
-} from '../constants/keyboard';
+} from '../constants';
 
 class KeyBoardDrawer extends PressedKeysWatcher {
     private ctx: CanvasRenderingContext2D;

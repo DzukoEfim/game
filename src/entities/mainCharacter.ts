@@ -1,14 +1,13 @@
 import { PressedKeysWatcher } from '../mechanics';
 import {
     a_l, w_l, d_l, s_l,
-} from '../constants/keyboard';
+    buttonToDirectionMapping, lookupToNeibhourTileModifier, animationTimings,
+} from '../constants';
 import { map_controller } from '../controlers/MAP_Controller';
-import {
-    buttonToDirectionMapping, lookupToNeibhourTileModifier,
-} from '../resources/objectsTiles/mainCharacterConstants';
-import { MainCharacterSprite } from '../resources/objectsTiles/mainCharacterSprite';
+import { AnimatedSprite } from '../animatedSprite';
 import { renderer } from '../mechanics/renderer';
 import { ICoordinates } from '../types/coordinates';
+import mainCharacterSprite from '../assets/chracterTiles/mainCharacter.png';
 
 const maxSpeed = 100; // pixels/second
 
@@ -16,11 +15,13 @@ class MainCharacter extends PressedKeysWatcher {
     private position: ICoordinates = { x: 0, y: 0 };
     private speed: number = 0;
     private lookDirection: number = null;
-    private mainCharacterSprite: MainCharacterSprite;
+    private mainCharacterSprite: AnimatedSprite;
 
     constructor() {
         super([a_l, w_l, d_l, s_l]);
-        this.mainCharacterSprite = new MainCharacterSprite();
+        this.mainCharacterSprite = new AnimatedSprite({
+            assetUrl: mainCharacterSprite,
+        }, animationTimings);
     }
 
     public update(timePassed: number) {
@@ -66,7 +67,7 @@ class MainCharacter extends PressedKeysWatcher {
         const pressedButtons = this.getButtons();
         const currentButton = pressedButtons[pressedButtons.length - 1];
         this.mainCharacterSprite.setPosition({ x: this.position.x, y: this.position.y });
-        this.mainCharacterSprite.updateFrameParameters(timePassed, currentButton);
+        this.mainCharacterSprite.animateFrame(timePassed, currentButton);
         renderer.pushToObjectsLayers(this.mainCharacterSprite, 0);
     }
 

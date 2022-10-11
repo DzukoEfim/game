@@ -1,6 +1,6 @@
 import { ICoordinates } from './types';
 
-type TileSettings = {
+export type SpriteSettings = {
     sx?: number;
     sy?: number;
     sWidth?: number;
@@ -10,13 +10,13 @@ type TileSettings = {
 }
 
 export type SpriteProperties = {
-    tileSettings?: TileSettings;
+    spriteSettings?: SpriteSettings;
     position?: ICoordinates;
     passable?: boolean;
     assetUrl: string;
 }
 
-export type RenderConfiguration = TileSettings & ICoordinates & { assetUrl: string }
+export type RenderConfiguration = SpriteSettings & ICoordinates & { assetUrl: string }
 
 export interface ISprite {
     setPosition(position: ICoordinates);
@@ -24,16 +24,17 @@ export interface ISprite {
     position: ICoordinates;
     assetUrl: string;
     passable: boolean;
+    spriteSettings: SpriteSettings;
 }
 
 export class Sprite implements ISprite {
-    tileSettings: TileSettings;
+    spriteSettings: SpriteSettings;
     position: ICoordinates;
     assetUrl: string;
     passable: boolean;
 
     constructor(sprite: SpriteProperties) {
-        this.tileSettings = sprite.tileSettings ?? {
+        this.spriteSettings = sprite.spriteSettings ?? {
             sHeight: 0,
             sWidth: 0,
             sx: 0,
@@ -55,7 +56,7 @@ export class Sprite implements ISprite {
     getRenderConfiguration() {
         return {
             assetUrl: this.assetUrl,
-            ...this.tileSettings,
+            ...this.spriteSettings,
             ...this.position,
         };
     }
