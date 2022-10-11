@@ -1,6 +1,7 @@
+import { AnimationConfig } from '../animationManager';
 import {
     a_l, w_l, d_l, s_l,
-} from '../../constants/keyboard';
+} from './keyboard';
 
 export const right = 'right';
 export const top = 'top';
@@ -60,9 +61,8 @@ export const lookupToNeibhourTileModifier = {
     },
 };
 
-export const animationTimings = {
+export const animationTimings: AnimationConfig = {
     [a_l]: {
-        framesCount: 3,
         0: {
             sx: 438,
             sy: 55,
@@ -87,7 +87,6 @@ export const animationTimings = {
     },
 
     [w_l]: {
-        framesCount: 3,
         0: {
             sx: 438,
             sy: 150,
@@ -112,7 +111,6 @@ export const animationTimings = {
     },
 
     [d_l]: {
-        framesCount: 3,
         0: {
             sx: 438,
             sy: 102,
@@ -137,7 +135,6 @@ export const animationTimings = {
     },
 
     [s_l]: {
-        framesCount: 3,
         0: {
             sx: 438,
             sy: 8,

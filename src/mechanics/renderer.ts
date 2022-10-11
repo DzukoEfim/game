@@ -1,5 +1,4 @@
 import { AssetManager } from '../assetManager';
-import { image_tile } from '../constants/types.constants';
 import { ISprite, RenderConfiguration } from '../sprite';
 
 type ILayers = {
@@ -63,19 +62,10 @@ class Renderer {
             if (!this.layers[layerName][layerIndex].length) return;
 
             tiles.forEach((tile) => {
-                const type = tile.imageType;
-                if (!type) throw new Error('Renderer: missing or unknown type');
-
                 const renderConfiguration = tile.getRenderConfiguration();
-                this.renderByType(type, renderConfiguration);
+                this.renderImageSprite(renderConfiguration);
             });
         });
-    }
-
-    private renderByType(type: string, renderConfiguration: RenderConfiguration): void {
-        if (type === image_tile) {
-            this.renderImageSprite(renderConfiguration);
-        }
     }
 
     async renderImageSprite(renderConfiguration: RenderConfiguration) {

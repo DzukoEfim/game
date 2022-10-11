@@ -1,37 +1,33 @@
-import { ITilesMap } from '../mapTiles';
-import { IObjectsMap } from '../objectsTiles';
-import { Sprite, SpriteProperties } from '../../sprite';
-import bridgeTileAsset from '../../assets/objectsTiles/bridge2.png';
-import grassTileAsset from '../../assets/mapTiles/trees-and-bushes.png';
-import waterTileAsset from '../../assets/mapTiles/water.png';
+import { ITilesMap, IObjectsMap } from '../types';
+import { Sprite, SpriteProperties } from '../sprite';
+import bridgeTileAsset from '../assets/objectsTiles/bridge2.png';
+import grassTileAsset from '../assets/mapTiles/trees-and-bushes.png';
+import waterTileAsset from '../assets/mapTiles/water.png';
 
 const bridgeTileProperties = {
-    tileSettings: {
+    spriteSettings: {
         sx: 0,
         sy: 0,
         sWidth: 47,
         sHeight: 59,
     },
     passable: false,
-    objectType: 'bridge',
     assetUrl: bridgeTileAsset,
 };
 
 const grassTileProperties = {
-    tileSettings: {
+    spriteSettings: {
         sx: 0,
         sy: 0,
         sWidth: 32,
         sHeight: 32,
     },
-    objectType: 'grass',
     assetUrl: grassTileAsset,
 };
 
 const waterTileProperties: SpriteProperties = {
     passable: false,
-    objectType: 'water',
-    tileSettings: {
+    spriteSettings: {
         sx: 0,
         sy: 0,
         sWidth: 32,
@@ -42,8 +38,7 @@ const waterTileProperties: SpriteProperties = {
 
 const waterTilePassableProperties: SpriteProperties = {
     passable: false,
-    objectType: 'water',
-    tileSettings: {
+    spriteSettings: {
         sx: 0,
         sy: 0,
         sWidth: 32,

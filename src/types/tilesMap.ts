@@ -1,4 +1,4 @@
-import { ISprite } from '../../sprite';
+import { ISprite } from '../sprite';
 
 export type ITilesMap = Record<
     string,
