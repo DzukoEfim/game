@@ -11,7 +11,7 @@ import mainCharacterSprite from '../assets/chracterTiles/mainCharacter.png';
 
 const maxSpeed = 100; // pixels/second
 
-class MainCharacter extends PressedKeysWatcher {
+export class MainCharacter extends PressedKeysWatcher {
     private position: ICoordinates = { x: 0, y: 0 };
     private speed: number = 0;
     private lookDirection: number = null;
@@ -79,5 +79,3 @@ class MainCharacter extends PressedKeysWatcher {
         ];
     }
 }
-
-export const mainCharacter = new MainCharacter();

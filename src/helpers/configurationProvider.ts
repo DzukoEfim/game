@@ -1,4 +1,4 @@
-class ConfigurationProvider {
+export class ConfigurationProvider {
     // TODO change to static method or singleton object
     // eslint-disable-next-line class-methods-use-this
     public isGridAvailable() {
@@ -11,5 +11,3 @@ class ConfigurationProvider {
         return true;
     }
 }
-
-export const configurationProvider = new ConfigurationProvider();
