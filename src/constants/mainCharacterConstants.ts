@@ -1,4 +1,4 @@
-import { AnimationConfig } from '../animationManager';
+import { AnimationConfig } from '../animation';
 import {
     a_l, w_l, d_l, s_l,
 } from './keyboard';

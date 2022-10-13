@@ -1,51 +1,42 @@
 import { buttonToDirectionMapping } from './constants';
-import { KeyboardManager } from './keyboardManager';
-import { ISprite } from './sprite';
+import { ICharacter } from './entities/mainCharacter';
 import { ICoordinates } from './types';
 
 const MAX_SPEED = 100; // pixels/second
 
-export class WalkManager {
-    private speed: number = 0;
-    private lookDirection: number = null;
-    private keyboardManager: KeyboardManager;
-    private sprite: ISprite;
+export class Walk {
+    private character: ICharacter;
 
-    constructor(keyBoardManager: KeyboardManager, sprite: ISprite) {
-        this.keyboardManager = keyBoardManager;
-        this.sprite = sprite;
+    constructor(character: ICharacter) {
+        this.character = character;
     }
 
-    public update(timePassed: number) {
-        const pressedButtons = this.keyboardManager.getActions();
-        this.updateSpeed(pressedButtons);
-
-        if (pressedButtons.length) {
-            this.updateLookDirection(pressedButtons);
-            this.updateCoordinates(timePassed);
-        }
+    start(direction: number) {
+        this.updateLookDirection(direction);
+        this.character.walkSpeed = MAX_SPEED;
     }
 
-    private updateLookDirection(pressedButtons: number[]): void {
-        this.lookDirection = pressedButtons[pressedButtons.length - 1];
+    stop() {
+        this.character.walkSpeed = 0;
     }
 
-    private updateSpeed(pressedButtons: number[]) {
-        this.speed = pressedButtons.length ? MAX_SPEED : 0;
+    updateLookDirection(pressedButton: number): void {
+        this.character.lookDirection = pressedButton;
     }
 
     updateCoordinates(timePassed: number): void {
         const newPositionObject = this.getCoordsOfNextPosition(timePassed);
 
-        this.sprite.setPosition(newPositionObject);
+        this.character.setPosition(newPositionObject);
     }
 
-    private getCoordsOfNextPosition(timePassed): ICoordinates {
-        const axisParameters = buttonToDirectionMapping[this.lookDirection];
-        const pixelsToGo = this.speed * (timePassed / 1000) * axisParameters.multiplier;
+    private getCoordsOfNextPosition(timePassed: number): ICoordinates {
+        const axisParameters = buttonToDirectionMapping[this.character.lookDirection];
+
+        const pixelsToGo = this.character.walkSpeed * (timePassed / 1000) * axisParameters.multiplier;
         const positionObject = {
-            x: this.sprite.position.x,
-            y: this.sprite.position.y,
+            x: this.character.position.x,
+            y: this.character.position.y,
         };
 
         positionObject[axisParameters.value] += pixelsToGo;

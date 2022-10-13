@@ -1,8 +1,6 @@
-import { ICoordinates } from './types';
-
 export type SpriteSettings = {
-    sx?: number;
-    sy?: number;
+    sx: number;
+    sy: number;
     sWidth?: number;
     sHeight?: number;
     dWidth?: number;
@@ -11,17 +9,13 @@ export type SpriteSettings = {
 
 export type SpriteProperties = {
     spriteSettings?: SpriteSettings;
-    position?: ICoordinates;
     passable?: boolean;
     assetUrl: string;
 }
 
-export type RenderConfiguration = SpriteSettings & ICoordinates & { assetUrl: string }
+export type RenderConfiguration = SpriteSettings & { assetUrl: string }
 
 export interface ISprite {
-    setPosition(position: ICoordinates): void;
-    getRenderConfiguration(): RenderConfiguration;
-    position: ICoordinates;
     assetUrl: string;
     passable: boolean;
     spriteSettings: SpriteSettings;
@@ -29,7 +23,6 @@ export interface ISprite {
 
 export class Sprite implements ISprite {
     spriteSettings: SpriteSettings;
-    position: ICoordinates;
     assetUrl: string;
     passable: boolean;
 
@@ -40,24 +33,7 @@ export class Sprite implements ISprite {
             sx: 0,
             sy: 0,
         };
-        this.position = sprite.position ?? {
-            x: 0,
-            y: 0,
-        };
         this.passable = sprite.passable ?? true;
         this.assetUrl = sprite.assetUrl;
-    }
-
-    setPosition({ x, y }: ICoordinates) {
-        this.position.x = x;
-        this.position.y = y;
-    }
-
-    getRenderConfiguration() {
-        return {
-            assetUrl: this.assetUrl,
-            ...this.spriteSettings,
-            ...this.position,
-        };
     }
 }
