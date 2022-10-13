@@ -1,6 +1,6 @@
-import { ISprite } from '../sprite';
+import { Tile } from '../entities/tile';
 
 export type IObjectsMap = Record<
     string,
-    Record<string, { objects: ISprite[] }>
+    Record<string, { objects: Tile[] }>
 >;

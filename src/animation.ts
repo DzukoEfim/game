@@ -10,9 +10,9 @@ export enum ViewDirections {
 type FrameSprite = SpriteSettings & { frameDuration: number }
 export type AnimationConfig = Record<ViewDirections, Record<number, FrameSprite>>
 
-export class AnimationManager {
+export class Animation {
     readonly config: AnimationConfig;
-
+    private isAnimationActive: boolean = false;
     private sprite: ISprite;
     private currentFrame: {
       direction: ViewDirections
@@ -41,9 +41,7 @@ export class AnimationManager {
                 + timePassed >= this.config[this.currentFrame.direction][this.currentFrame.frameNumber].frameDuration;
     }
 
-    updateFrame(timePassed: number, newDirection?: ViewDirections) {
-        this.updateSpriteSettings();
-
+    updateDirection(newDirection?: ViewDirections) {
         if (!newDirection) {
             this.currentFrame.frameNumber = 0;
             this.currentFrame.frameTime = 0;
@@ -52,26 +50,41 @@ export class AnimationManager {
 
         if (this.currentFrame.direction !== newDirection) {
             this.resetFrameParameters(newDirection);
-
-            return;
         }
+    }
 
-        const currentDirectionFrameConfig = this.config[this.currentFrame.direction];
-        const framesCount = Object.keys(currentDirectionFrameConfig).length;
+    stop() {
+        this.isAnimationActive = false;
+        this.currentFrame.frameNumber = 0;
+        this.currentFrame.frameTime = 0;
+    }
 
-        if (this.isNextFrame(timePassed)) {
-            if (this.currentFrame.frameNumber + 1 === framesCount) {
-                this.currentFrame.frameNumber = 0;
-            } else {
-                this.currentFrame.frameNumber += 1;
+    start(direction: number) {
+        this.isAnimationActive = true;
+        this.currentFrame.direction = direction;
+    }
+
+    updateFrame(timePassed: number) {
+        if (this.isAnimationActive) {
+            this.updateSpriteSettings();
+
+            const currentDirectionFrameConfig = this.config[this.currentFrame.direction];
+            const framesCount = Object.keys(currentDirectionFrameConfig).length;
+
+            if (this.isNextFrame(timePassed)) {
+                if (this.currentFrame.frameNumber + 1 === framesCount) {
+                    this.currentFrame.frameNumber = 0;
+                } else {
+                    this.currentFrame.frameNumber += 1;
+                }
+
+                this.currentFrame.frameTime = 0;
+
+                return;
             }
 
-            this.currentFrame.frameTime = 0;
-
-            return;
+            this.currentFrame.frameTime += timePassed;
         }
-
-        this.currentFrame.frameTime += timePassed;
     }
 
     private updateSpriteSettings() {

@@ -1,31 +1,55 @@
-import { animationTimings } from '../constants';
-// import { map_controller } from '../controlers/MAP_Controller';
-import { AnimatedSprite } from '../animatedSprite';
+import { animationTimings, d_l } from '../constants';
 import { renderer } from '../mechanics/renderer';
 import mainCharacterSprite from '../assets/chracterTiles/mainCharacter.png';
-import { KeyboardManager } from '../keyboardManager';
-import { WalkManager } from '../walkManager';
+import { Walk } from '../walkManager';
+import { ICoordinates } from '../types';
+import { ISprite, Sprite } from '../sprite';
+import { Animation } from '../animation';
+import { IRenderable, RenderConfiguration } from '../types/renderable';
 
-export class MainCharacter {
-    private mainCharacterSprite: AnimatedSprite;
-    private keyboardManager: KeyboardManager;
-    private walkManager: WalkManager;
+export interface ICharacter {
+    walkSpeed: number;
+    position: ICoordinates;
+    lookDirection: number;
+    setPosition(position: ICoordinates): void;
+    animation: Animation;
+}
 
-    constructor(keyboardManager: KeyboardManager) {
-        this.mainCharacterSprite = new AnimatedSprite(
-            { assetUrl: mainCharacterSprite },
-            animationTimings,
-        );
-        this.keyboardManager = keyboardManager;
-        this.walkManager = new WalkManager(keyboardManager, this.mainCharacterSprite);
+export class MainCharacter implements ICharacter, IRenderable {
+    sprite: ISprite;
+    walkSpeed: number = 0;
+    walk: Walk;
+    position: ICoordinates = {
+        x: 0,
+        y: 0,
+    };
+    lookDirection: number = d_l;
+    animation: Animation;
+
+    constructor() {
+        this.sprite = new Sprite({ assetUrl: mainCharacterSprite });
+        this.walk = new Walk(this);
+        this.animation = new Animation(animationTimings, this.sprite);
     }
 
-    public update(timePassed: number) {
-        this.walkManager.update(timePassed);
-        const pressedButtons = this.keyboardManager.getActions();
-        const currentButton = pressedButtons[pressedButtons.length - 1];
-        this.mainCharacterSprite.animateFrame(timePassed, currentButton);
-        renderer.pushToObjectsLayers(this.mainCharacterSprite, 0);
+    setPosition({ x, y }: ICoordinates) {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
+    getRenderConfiguration(): RenderConfiguration {
+        return {
+            ...this.sprite.spriteSettings,
+            ...this.position,
+            assetUrl: this.sprite.assetUrl,
+        };
+    }
+
+    update(timePassed: number) {
+        this.walk.updateCoordinates(timePassed);
+        this.animation.updateFrame(timePassed);
+
+        renderer.pushLayer('objectsLayers', this);
     }
 
     // we should figure out the best way to detect collision. For now it is not working

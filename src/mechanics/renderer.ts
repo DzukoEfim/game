@@ -1,11 +1,11 @@
 import { AssetManager } from '../assetManager';
-import { ISprite, RenderConfiguration } from '../sprite';
+import { IRenderable, RenderConfiguration } from '../types/renderable';
 
 type ILayers = {
-    backgroundLayers: Record<string, ISprite[]>,
-    mapLayers: Record<string, ISprite[]>,
-    objectsLayers: Record<string, ISprite[]>,
-    interfaceLayers: Record<string, ISprite[]>,
+    backgroundLayers: Record<string, IRenderable[]>,
+    mapLayers: Record<string, IRenderable[]>,
+    objectsLayers: Record<string, IRenderable[]>,
+    interfaceLayers: Record<string, IRenderable[]>,
 }
 
 type LayerNames = keyof ILayers;
@@ -23,27 +23,11 @@ class Renderer {
         this.ctx = ctx;
     }
 
-    public pushToBackgroundLayers(obj: any, layer: number): void {
-        if (!this.layers.backgroundLayers[layer]) {
-            this.layers.backgroundLayers[layer] = [obj];
-        } else {
-            this.layers.backgroundLayers[layer].push(obj);
-        }
-    }
-
-    public pushToMapLayers(obj: ISprite, layer: number): void {
-        if (!this.layers.mapLayers[layer]) {
-            this.layers.mapLayers[layer] = [obj];
-        } else {
-            this.layers.mapLayers[layer].push(obj);
-        }
-    }
-
-    public pushToObjectsLayers(obj: any, layer: number): void {
+    public pushLayer(layerName: LayerNames, obj: IRenderable, layer: number = 0): void {
         if (!this.layers.objectsLayers[layer]) {
-            this.layers.objectsLayers[layer] = [obj];
+            this.layers[layerName][layer] = [obj];
         } else {
-            this.layers.objectsLayers[layer].push(obj);
+            this.layers[layerName][layer].push(obj);
         }
     }
 

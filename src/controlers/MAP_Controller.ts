@@ -8,13 +8,13 @@ export type Borders = {
     col: number
 }
 
-class MAP_Controller {
+export class MAP_Controller {
     private tiles: ITilesMap = null;
     private objects: IObjectsMap = null;
     private bordersToDraw: Borders[] = [];
 
     public setTiles(tilesArray: ITilesMap): void {
-        this.tiles = tilesArray; // simplified for now
+        this.tiles = tilesArray;
     }
 
     public setObjects(objectsArray: IObjectsMap): void {
@@ -40,7 +40,7 @@ class MAP_Controller {
                     x: parseInt(col, 10) * tileSize,
                     y: parseInt(row, 10) * tileSize,
                 });
-                renderer.pushToMapLayers(this.tiles[row][col].tile, 0);
+                renderer.pushLayer('mapLayers', this.tiles[row][col].tile);
             });
         });
     }
@@ -49,16 +49,13 @@ class MAP_Controller {
         Object.keys(this.objects).forEach((row) => {
             Object.keys(this.objects[row]).forEach((col) => {
                 this.objects[row][col].objects.forEach((item) => {
-                    // TODO why col and row counted as string without direct conversion to number?
                     item.setPosition({
                         x: parseInt(col, 10) * tileSize,
                         y: parseInt(row, 10) * tileSize,
                     });
-                    renderer.pushToObjectsLayers(item, 0);
+                    renderer.pushLayer('objectsLayers', item);
                 });
             });
         });
     }
 }
-
-export const map_controller = new MAP_Controller();
