@@ -65,26 +65,24 @@ export class Animation {
     }
 
     updateFrame(timePassed: number) {
-        if (this.isAnimationActive) {
-            this.updateSpriteSettings();
+        this.updateSpriteSettings();
 
-            const currentDirectionFrameConfig = this.config[this.currentFrame.direction];
-            const framesCount = Object.keys(currentDirectionFrameConfig).length;
+        const currentDirectionFrameConfig = this.config[this.currentFrame.direction];
+        const framesCount = Object.keys(currentDirectionFrameConfig).length;
 
-            if (this.isNextFrame(timePassed)) {
-                if (this.currentFrame.frameNumber + 1 === framesCount) {
-                    this.currentFrame.frameNumber = 0;
-                } else {
-                    this.currentFrame.frameNumber += 1;
-                }
-
-                this.currentFrame.frameTime = 0;
-
-                return;
+        if (this.isNextFrame(timePassed)) {
+            if (this.currentFrame.frameNumber + 1 === framesCount) {
+                this.currentFrame.frameNumber = 0;
+            } else {
+                this.currentFrame.frameNumber += 1;
             }
 
-            this.currentFrame.frameTime += timePassed;
+            this.currentFrame.frameTime = 0;
+
+            return;
         }
+
+        this.currentFrame.frameTime += timePassed;
     }
 
     private updateSpriteSettings() {

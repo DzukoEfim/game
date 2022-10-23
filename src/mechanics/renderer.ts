@@ -1,4 +1,3 @@
-import { AssetManager } from '../assetManager';
 import { IRenderable, RenderConfiguration } from '../types/renderable';
 
 type ILayers = {
@@ -53,9 +52,8 @@ class Renderer {
     }
 
     async renderImageSprite(renderConfiguration: RenderConfiguration) {
-        const image = await AssetManager.loadAsset(renderConfiguration.assetUrl);
         this.ctx.drawImage(
-            image,
+            renderConfiguration.imageCtx.canvas,
             renderConfiguration.sx,
             renderConfiguration.sy,
             renderConfiguration.sWidth,
