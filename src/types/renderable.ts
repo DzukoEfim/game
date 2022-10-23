@@ -1,4 +1,5 @@
 export type RenderConfiguration = {
+    spriteBuffer: CanvasRenderingContext2D,
     sx: number;
     sy: number;
     assetUrl: string;

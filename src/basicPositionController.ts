@@ -1,27 +1,30 @@
-import { buttonToDirectionMapping } from './constants';
+import { buttonToDirectionMapping, awds } from './constants';
 import { ICharacter } from './entities/mainCharacter';
+import { PressedKeyObject } from './mechanics/keyboard';
 import { ICoordinates } from './types';
 
 const MAX_SPEED = 100; // pixels/second
 
-export class Walk {
+export class BasicPositionController {
     private character: ICharacter;
 
     constructor(character: ICharacter) {
         this.character = character;
     }
 
-    start(direction: number) {
-        this.updateLookDirection(direction);
-        this.character.walkSpeed = MAX_SPEED;
+    start() {
+        this.character.speed = MAX_SPEED;
     }
 
     stop() {
-        this.character.walkSpeed = 0;
+        this.character.speed = 0;
     }
 
-    updateLookDirection(pressedButton: number): void {
-        this.character.lookDirection = pressedButton;
+    updateLookDirection(pressedButtons: PressedKeyObject[]): void {
+        const filteredArray = pressedButtons.filter((keyObject) => awds.includes(keyObject.key));
+        if (filteredArray.length > 0) {
+            this.character.lookDirection = filteredArray[filteredArray.length - 1].key;
+        }
     }
 
     updateCoordinates(timePassed: number): void {
@@ -33,7 +36,7 @@ export class Walk {
     private getCoordsOfNextPosition(timePassed: number): ICoordinates {
         const axisParameters = buttonToDirectionMapping[this.character.lookDirection];
 
-        const pixelsToGo = this.character.walkSpeed * (timePassed / 1000) * axisParameters.multiplier;
+        const pixelsToGo = this.character.speed * (timePassed / 1000) * axisParameters.multiplier;
         const positionObject = {
             x: this.character.position.x,
             y: this.character.position.y,

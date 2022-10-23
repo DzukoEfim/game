@@ -1,3 +1,5 @@
+import { spritesCacher } from './assets/assetsCacher';
+
 export type SpriteSettings = {
     sx: number;
     sy: number;
@@ -9,31 +11,30 @@ export type SpriteSettings = {
 
 export type SpriteProperties = {
     spriteSettings?: SpriteSettings;
-    passable?: boolean;
     assetUrl: string;
 }
 
 export type RenderConfiguration = SpriteSettings & { assetUrl: string }
 
+export interface ISpriteSettings extends SpriteSettings {spriteBuffer: CanvasRenderingContext2D}
 export interface ISprite {
     assetUrl: string;
-    passable: boolean;
-    spriteSettings: SpriteSettings;
+    spriteSettings: ISpriteSettings;
 }
-
 export class Sprite implements ISprite {
-    spriteSettings: SpriteSettings;
+    spriteSettings: ISpriteSettings;
     assetUrl: string;
-    passable: boolean;
+    assetId: string;
 
     constructor(sprite: SpriteProperties) {
-        this.spriteSettings = sprite.spriteSettings ?? {
+        this.spriteSettings = {
+            spriteBuffer: spritesCacher.createAsset(sprite),
             sHeight: 0,
             sWidth: 0,
             sx: 0,
             sy: 0,
+            ...sprite.spriteSettings,
         };
-        this.passable = sprite.passable ?? true;
         this.assetUrl = sprite.assetUrl;
     }
 }
