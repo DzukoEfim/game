@@ -16,7 +16,7 @@ export type SpriteProperties = {
 
 export type RenderConfiguration = SpriteSettings & { assetUrl: string }
 
-export interface ISpriteSettings extends SpriteSettings {imageCtx: CanvasRenderingContext2D}
+export interface ISpriteSettings extends SpriteSettings {spriteBuffer: CanvasRenderingContext2D}
 export interface ISprite {
     assetUrl: string;
     spriteSettings: ISpriteSettings;
@@ -28,7 +28,7 @@ export class Sprite implements ISprite {
 
     constructor(sprite: SpriteProperties) {
         this.spriteSettings = {
-            imageCtx: spritesCacher.createAsset(sprite),
+            spriteBuffer: spritesCacher.createAsset(sprite),
             sHeight: 0,
             sWidth: 0,
             sx: 0,

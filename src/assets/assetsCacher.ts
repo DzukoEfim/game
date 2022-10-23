@@ -11,6 +11,9 @@ export class SpritesCacher {
             return this.assets[sprite.assetUrl];
         }
         const canvas = document.createElement('canvas');
+        canvas.height = sprite.spriteSettings.sHeight;
+        canvas.width = sprite.spriteSettings.sWidth;
+
         const ctx = canvas.getContext('2d');
         const imageResounce = assetsLoader.getAsset(sprite.assetUrl);
         if (!imageResounce) {

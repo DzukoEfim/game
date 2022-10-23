@@ -55,7 +55,7 @@ class Game {
             const timeStepDiff = timestamp - prevTimeStemp;
 
             keyboardController.update(timeStepDiff);
-            // this.map_controller.update();
+            this.map_controller.update();
             this.mainCharacter.update(timeStepDiff, keyboardController.pressedKey);
             renderer.draw();
 

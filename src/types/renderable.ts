@@ -1,5 +1,5 @@
 export type RenderConfiguration = {
-    imageCtx: CanvasRenderingContext2D,
+    spriteBuffer: CanvasRenderingContext2D,
     sx: number;
     sy: number;
     assetUrl: string;

@@ -53,7 +53,7 @@ class Renderer {
 
     async renderImageSprite(renderConfiguration: RenderConfiguration) {
         this.ctx.drawImage(
-            renderConfiguration.imageCtx.canvas,
+            renderConfiguration.spriteBuffer.canvas,
             renderConfiguration.sx,
             renderConfiguration.sy,
             renderConfiguration.sWidth,
